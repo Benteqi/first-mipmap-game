@@ -8,6 +8,7 @@
 int main()
 {
 	Root root;
-	root.setup_window({1920, 1080}, "The worst game ever");
+	root.setup_window({1920, 1080}, "My first mipmap game");
 	root.mainloop();
+	return 0;
 }

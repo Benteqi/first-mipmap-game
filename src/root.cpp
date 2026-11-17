@@ -1,3 +1,4 @@
+#include <SFML/Window/Mouse.hpp>
 #include <string>
 #include <iostream>
 #include <SFML/System/Vector2.hpp>
@@ -5,9 +6,12 @@
 #include "keymap.hpp"
 #include "player.hpp"
 #include "root.hpp"
+#include "projectile.hpp"
+
 	Root::Root() {
-		player = Player();
-		add(&player);
+		player = new Player(this);
+		add(player);
+		// add(new Projectile(this, {10, 40}, {100, 400}));
 	}
 	void Root::setup_window(Vector2i window_size, std::string title) {
 		window = RenderWindow( VideoMode( { (unsigned int)window_size.x, (unsigned int)window_size.y } ), title);
@@ -21,24 +25,28 @@
 				if (event->is<Event::Closed>()) {
 					window.close();
 				}
+				else if (const auto * mouse_pressed = event->getIf<Event::MouseButtonPressed>()) 
+					if (mouse_pressed->button == Mouse::Button::Left ) {
+						player->shoot((Vector2f)mouse_pressed->position);
+				}
 			};
 			for(auto m = keymap.begin(); m != keymap.end(); m++) {
 				if(Keyboard::isKeyPressed(m->first)) {
 					switch(m->second) {
 						case Actions::MoveLeft:
-							player.move({1, 0});
+							player->move({1, 0});
 							break;
 						case Actions::MoveRight:
-							player.move({-1, 0});
+							player->move({-1, 0});
 							break;
 						case Actions::MoveDown:
-							player.move({0, 1});
+							player->move({0, 1});
 							break;
 						case Actions::MoveUp:
-							player.move({0, -1});
+							player->move({0, -1});
 							break;
 						case Actions::Dash:
-							player.dash();
+							player->dash();
 							break;
 						case Actions::Close:
 							window.close();
@@ -48,7 +56,7 @@
 			}
 			for(int i = 0; i < object_array.size(); i++) {
 				object_array[i]->process(delta);
-				window.draw(object_array[i]->sprite);
+				window.draw(*object_array[i]->sprite);
 			}
 			window.display();
 		}

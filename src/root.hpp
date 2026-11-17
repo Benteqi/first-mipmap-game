@@ -15,7 +15,7 @@ class Root {
 	std::unordered_map<Signal, void(*)(int*, int)> signal_map = {
 	};
 	std::vector<Object*> object_array = {};
-	Player player;
+	Player* player;
 	RenderWindow window;
 	public:
 	Root();

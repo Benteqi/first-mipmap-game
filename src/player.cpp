@@ -1,20 +1,22 @@
 #include "player.hpp"
-#include <iostream>
-#include <ostream>
+#include "object.hpp"
+#include "root.hpp"
+#include "projectile.hpp"
+
 void Player::process(float delta) {
 	dash_counter += delta;
-	sprite.move(direction * delta * speed);
+	sprite->move(direction * delta * speed);
 	if(to_dash) {
-		sprite.move(direction * dash_range);
+		sprite->move(direction * dash_range);
 		to_dash = false;
 		dash_counter = 0;
 	}
 	direction = {0, 0}; 
 }
 
-Player::Player() {
-	name = "Player";
-	sprite = CircleShape(player_size);
+Player::Player(Root* r) : Object(r, "Player") {
+	sprite = std::make_unique<CircleShape>(player_size / 2.f);
+	sprite->setOrigin({player_size / 2.f, player_size / 2.f});
 	speed = 100;
 	dash_range = 300;
 	direction = {0, 0};
@@ -29,3 +31,7 @@ void Player::dash() {
 		to_dash = true;
 	}
 }
+void Player::shoot(Vector2f target) {
+	root->add(new Projectile(root, target - sprite->getPosition(), sprite->getPosition()));
+}
+
