@@ -10,8 +10,17 @@ int Random::randint(int min, int max) {
 int Random::randint(int max) {
 	return randint(0, max);
 }
+int Random::randint() {
+	return randint(0, 1<<31);
+}
+float Random::randf(int min, int max) {
+	return (float)generator() / (1 << 31) * (max - min) + min;
+}
+float Random::randf(int max) {
+	return randf(0, max);
+}
 float Random::randf() {
-	return (float)generator() / (1 << 31);
+	return randf(0, 1<<31);
 }
 
 std::mt19937 mt(time(0));
