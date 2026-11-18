@@ -1,7 +1,7 @@
 #include "player.hpp"
 #include "object.hpp"
 #include "root.hpp"
-#include "projectile.hpp"
+#include "player_projectile.hpp"
 
 void Player::process(float delta) {
 	dash_counter += delta;
@@ -32,6 +32,6 @@ void Player::dash() {
 	}
 }
 void Player::shoot(Vector2f target) {
-	root->add(new Projectile(root, target - sprite->getPosition(), sprite->getPosition()));
+	root->add(new PlayerProjectile(root, target - sprite->getPosition(), sprite->getPosition()));
 }
 
