@@ -1,12 +1,13 @@
+#include <iostream>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "player.hpp"
-#include "signal.hpp"
+#include "random.hpp"
 #include "root.hpp"
 int main()
 {
+	std::cout << "Seed: " << Random::get_seed() << '\n';
 	Root root;
 	root.setup_window({1920, 1080}, "My first mipmap game");
 	root.mainloop();
