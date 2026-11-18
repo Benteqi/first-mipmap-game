@@ -8,8 +8,7 @@
 int main()
 {
 	std::cout << "Seed: " << Random::get_seed() << '\n';
-	Root root;
-	root.setup_window({1920, 1080}, "My first mipmap game");
+	Root root({1920, 1080}, "My first mipmap game");
 	root.mainloop();
 	return 0;
 }

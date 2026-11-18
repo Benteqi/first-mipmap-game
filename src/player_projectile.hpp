@@ -4,7 +4,9 @@
 #include <SFML/System/Vector2.hpp>
 
 class PlayerProjectile : public Projectile {
+	int damage;
 	public:
+	int get_damage();
 	PlayerProjectile(Root *r, Vector2f d, Vector2f p );
 };
 

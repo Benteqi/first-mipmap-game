@@ -8,11 +8,16 @@ class Player : public Object {
 	bool to_dash;
 	float dash_counter;
 	float dash_cooldown;
+	bool damaged;
+	float damage_counter;
+	float damage_cooldown;
+	int hp;
 	public: 
 	Vector2f direction;
+	void damage(int value);
 	void process(float delta);
 	void move(Vector2f direction);
 	void dash();
 	void shoot(Vector2f target);
-	Player(Root* r);
+	Player(Root* r, Vector2f p);
 };

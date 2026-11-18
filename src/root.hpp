@@ -18,10 +18,12 @@ class Root {
 	Player* player;
 	RenderWindow window;
 	public:
-	Root();
-	void setup_window(Vector2i window_size, std::string title);
+	Root(Vector2i window_size, std::string title);
 	int mainloop(); 
+	Vector2f get_player_position();
 	void add(Object* obj);
+	void remove_at(int index);
+	void remove(Object* obj);
 	void connect(Signal s, void (*function)(int*, int)); 
 	void emit(Signal s, int* arr, int count); 
 };
