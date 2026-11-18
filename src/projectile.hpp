@@ -1,7 +1,9 @@
+#pragma once
 #include "object.hpp"
 #include <SFML/System/Vector2.hpp>
 
 class Projectile : public Object {
+	protected: 
 	Vector2f direction;
 	float speed;
 	public:

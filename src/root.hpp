@@ -1,3 +1,4 @@
+#pragma once 
 #include <unordered_map>
 #include <vector>
 #include <string>
@@ -8,7 +9,6 @@
 #include "signal.hpp"
 #include "object.hpp"
 
-#pragma once 
 
 using namespace sf;
 class Root {

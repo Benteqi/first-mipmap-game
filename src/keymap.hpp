@@ -1,8 +1,7 @@
+#pragma once
 #include <SFML/Window/Keyboard.hpp>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
-
-#pragma once
 
 enum class Actions : char {
 	MoveUp,
