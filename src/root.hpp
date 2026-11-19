@@ -5,6 +5,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/System/Clock.hpp>
+#include "audio_manager.hpp"
+#include "sounds.hpp"
 #include "player.hpp"
 #include "signal.hpp"
 #include "object.hpp"
@@ -17,6 +19,7 @@ class Root {
 	std::vector<Object*> object_array = {};
 	Player* player;
 	RenderWindow window;
+	AudioManager audio_manager;
 	public:
 	Root(Vector2i window_size, std::string title);
 	int mainloop(); 
@@ -26,4 +29,5 @@ class Root {
 	void remove(Object* obj);
 	void connect(Signal s, void (*function)(int*, int)); 
 	void emit(Signal s, int* arr, int count); 
+	void play_sound(SoundType t);
 };

@@ -82,6 +82,9 @@
 		}
 		return 0;
 	}
+	void Root::play_sound(SoundType t) {
+		audio_manager.play_sound(t);
+	}
 	void Root::connect(Signal s, void (*function)(int*, int)) {
 		signal_map[s] = function;
 	}
