@@ -51,10 +51,12 @@ void Player::shoot(Vector2f target) {
 	if (shoot_counter.isTimeout()) {
 		shoot_counter.reset();
 		root->add(new PlayerProjectile(root, target - sprite->getPosition(), sprite->getPosition()));
+		root->play_sound(SoundType::SHOOT);
 	}
 }
 
 void Player::damage(int value) {
+	root->play_sound(SoundType::PLAYER_HIT);
 	sprite->setFillColor(Color::White);
 	damage_counter.reset();
 	hp -= value;

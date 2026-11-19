@@ -22,6 +22,7 @@ void Enemy::process(float delta) {
 }
 void Enemy::shoot(Vector2f target) {
 	root->add(new EnemyProjectile(root, target - sprite->getPosition(), sprite->getPosition()));
+	root->play_sound(SoundType::SHOOT);
 }
 Enemy::Enemy(Root* r) : Object(r, "Enemy") {
 	sprite = std::make_unique<CircleShape>(enemy_size / 2.f);
@@ -36,6 +37,7 @@ Enemy::Enemy(Root* r) : Object(r, "Enemy") {
 };
 void Enemy::damage(int value) {
 	sprite->setFillColor(Color::White);
+	root->play_sound(SoundType::ENEMY_HIT);
 	damage_counter.reset();
 	hp -= value;
 }
