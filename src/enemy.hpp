@@ -1,14 +1,13 @@
 #pragma once
 #include "object.hpp"
+#include "counter.hpp"
 
 class Enemy : public Object {
 	int speed;
 	int hp;
 	bool damaged;
-	float damage_counter;
-	float damage_cooldown;
-	float shoot_cooldown; 
-	float shoot_counter;
+	Counter damage_counter;
+	Counter shoot_counter;
 	public:
 	void process(float delta); 
 	void shoot(Vector2f target);
