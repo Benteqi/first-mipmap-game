@@ -1,17 +1,22 @@
+#include <SFML/Window/WindowEnums.hpp>
 #include <algorithm>
+#include <ranges>
 #include <string>
 #include <SFML/Window/Mouse.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
-#include "root.hpp"
+#include <unordered_map>
+#include <vector>
+#include <set>
 #include "enemy_projectile.hpp"
+#include "player_projectile.hpp"
+#include "root.hpp"
 #include "keymap.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
-#include "player_projectile.hpp"
 
 	Root::Root(Vector2i window_size, std::string title) {
-		window = RenderWindow( VideoMode( { (unsigned int)window_size.x, (unsigned int)window_size.y } ), title);
+		window = RenderWindow( VideoMode( { (unsigned int)window_size.x, (unsigned int)window_size.y } ), title, Style::Titlebar | Style::Close);
 		player = new Player(this, (Vector2f)window.getSize() / 2.f);
 		add(new Enemy(this));
 		add(player);
@@ -57,22 +62,28 @@
 					}
 				}
 			}
+			std::set<int> to_remove = {};
 			for(int i = 0; i < object_array.size(); i++) {
+				auto pos = object_array[i]->sprite->getPosition() + Vector2f{12, 12};
 				if (object_array[i]->name == "Enemy") {
 					for(int j = 0; j < object_array.size(); j++) {
-						if (object_array[j]->name == "Player Projectile" && (object_array[i]->sprite->getPosition() - object_array[j]->sprite->getPosition()).length() < 20 ) {
-							Enemy* e = (Enemy*)object_array[i];
-							PlayerProjectile* p = (PlayerProjectile*)object_array[j];
-							e->damage(p->get_damage());
-							remove_at(j);
+						if (object_array[j]->name == "Player Projectile") {
+							if ((object_array[i]->sprite->getPosition() - object_array[j]->sprite->getPosition()).length() < 20 ) {
+								((Enemy*)object_array[i])->damage(((PlayerProjectile*)object_array[j])->get_damage());
+								to_remove.insert(j);
+							}
 						}
 					}
+				} else if (( object_array[i]->name == "Enemy Projectile" || object_array[i]->name == "Player Projectile" )
+						&& (pos.x > window.getSize().x || pos.y > window.getSize().y || pos.x < 0 || pos.y < 0 )) {
+					to_remove.insert(i);
+				} else if (object_array[i]->name == "Enemy Projectile" && (object_array[i]->sprite->getPosition() - get_player_position()).length() < 20) {
+					player->damage(((EnemyProjectile*)object_array[i])->get_damage());
+					to_remove.insert(i);
 				}
-				else if (object_array[i]->name == "Enemy Projectile" && (object_array[i]->sprite->getPosition() - get_player_position()).length() < 20) {
-					EnemyProjectile* e = (EnemyProjectile*)object_array[i];
-					player->damage(e->get_damage());
-					remove_at(i);
-				}
+			}
+			for(auto i : std::views::reverse(to_remove)) {
+				remove_at(i);
 			}
 			for(int i = 0; i < object_array.size(); i++) {
 				object_array[i]->process(delta);
@@ -96,8 +107,9 @@
 	}
 	void Root::remove_at(int index) {
 		delete object_array[index];
-		object_array.erase(object_array.begin() + index);
+		object_array[index] = object_array[object_array.size() - 1];
+		object_array.pop_back();
 	}
 	void Root::remove(Object* obj) {
-		object_array.erase(std::find(object_array.begin(), object_array.end(), obj));
+		remove_at(std::distance(object_array.begin(), std::find(object_array.begin(), object_array.end(), obj)));
 	}
