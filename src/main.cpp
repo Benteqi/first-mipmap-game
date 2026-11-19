@@ -5,6 +5,9 @@
 #include <SFML/Window/Keyboard.hpp>
 #include "random.hpp"
 #include "root.hpp"
+
+using namespace sf;
+
 int main()
 {
 	std::cout << "Seed: " << Random::get_seed() << '\n';
