@@ -21,7 +21,7 @@ void Player::process(float delta) {
 		damage_counter.reset();
 		sprite->setFillColor(Color::Green);
 		if (hp <= 0) {
-			std::cout << "Game over!";
+			root->game_over();
 		}
 	}
 }
