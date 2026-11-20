@@ -31,13 +31,13 @@ Player::Player(Root* r, Vector2f p) : Object(r, "Player") {
 	sprite->setOrigin({player_size / 2.f, player_size / 2.f});
 	sprite->setFillColor(Color::Green);
 	sprite->setPosition(p);
-	speed = 100;
+	speed = 150;
 	dash_range = 300;
 	direction = {0, 0};
-	hp = 40;
+	hp = 100;
 	dash_counter = Counter(2);
 	damage_counter = Counter(0.1);
-	shoot_counter = Counter(0.7);
+	shoot_counter = Counter(0.5);
 };
 void Player::move(Vector2f dir) {
 	direction += dir;

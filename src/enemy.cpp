@@ -30,7 +30,7 @@ Enemy::Enemy(Root* r) : Object(r, "Enemy") {
 	sprite->setPosition({Random::randf(100, 1900), Random::randf(100, 1000)});
 	sprite->setFillColor(Color::Red);
 	speed = 100;
-	shoot_counter = Counter(2);
+	shoot_counter = Counter(2 + Random::randf(0, 1));
 	hp = 20;
 	damage_counter = Counter(0.1);
 	damaged = false;
