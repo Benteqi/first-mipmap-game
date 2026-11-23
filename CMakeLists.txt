@@ -27,15 +27,25 @@ add_executable(main ${SOURCES})
 target_link_libraries(main PRIVATE 
 	SFML::Graphics 
 	SFML::Audio    
-	SFML::Graphics 
-	SFML::Audio    
+	-static-libstdc++
+	-static-libgcc
+	-static
     "-Wl,--start-group"
     "${CMAKE_BINARY_DIR}/_deps/sfml-build/lib/libfreetype.a"
     "${CMAKE_BINARY_DIR}/_deps/sfml-build/lib/libharfbuzz.a"
     "-Wl,--end-group"
 )
 target_compile_definitions(main PRIVATE
-    ASSETS_PATH="${PROJECT_SOURCE_DIR}/assets/"
+	ASSETS_PATH="assets/"
+)
+target_compile_options(main PRIVATE
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-march=x86-64-v3>
 )
 
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/assets"
+        "${CMAKE_SOURCE_DIR}/build/bin/assets"
+)
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT main)
